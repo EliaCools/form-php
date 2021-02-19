@@ -1,4 +1,6 @@
+
 <!doctype html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,16 +19,17 @@
             <li class="nav-item">
                 <a class="nav-link active" href="?food=1">Order food</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="?food=0">Order drinks</a>
+            <li class="nav-item"  >
+                <a class="nav-link" href="?food=0"  >Order drinks</a>
             </li>
         </ul>
     </nav>
-    <form method="post">
+
+    <form method="post" id="orderForm" action="">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
-                <input type="text" id="email" name="email" class="form-control"/>
+                <input type="text" id="email" name="email" class="form-control" value="<?php global $email; if (isset($_SESSION['email'])){echo $_SESSION['email'];}else{echo $email;}  ?>"/>
             </div>
             <div></div>
         </div>
@@ -37,43 +40,43 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
-                    <input type="text" name="street" id="street" class="form-control">
+                    <input type="text" name="street" id="street" class="form-control" value="<?php global $street; if (isset($_SESSION['street'])){echo $_SESSION['street'];}else{echo $street;}  ?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
-                    <input type="text" id="streetnumber" name="streetnumber" class="form-control">
+                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" value="<?php global $streetNumber; if (isset($_SESSION['streetNumber'])){echo $_SESSION['streetNumber'];}else{echo $streetNumber;}  ?>">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
-                    <input type="text" id="city" name="city" class="form-control">
+                    <input type="text" id="city" name="city" class="form-control" value="<?php global $city; if (isset($_SESSION['city'])){echo $_SESSION['city'];}else{echo $city;}  ?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode" name="zipcode" class="form-control">
+                    <input type="text" id="zipcode" name="zipcode" class="form-control" value="<?php global $zipcode; if (isset($_SESSION['zipcode'])){echo $_SESSION['zipcode'];}else{echo $zipcode;}  ?>">
                 </div>
             </div>
         </fieldset>
 
         <fieldset>
             <legend>Products</legend>
-            <?php foreach ($products AS $i => $product): ?>
+            <?php global $products; foreach ($products AS $i => $product): ?>
                 <label>
-                    <input type="checkbox" value="1" name="products[<?php echo $i ?>]"/> <?php echo $product['name'] ?> -
+                    <input type="number" min="0" max="10" value="0" name="products[<?php echo $i ?>]"/> <?php echo $product['name'] ?> -
                     &euro; <?php echo number_format($product['price'], 2) ?></label><br />
             <?php endforeach; ?>
         </fieldset>
-        
+
         <label>
-            <input type="checkbox" name="express_delivery" value="5" /> 
+            <input type="checkbox" name="express_delivery" value="5" />
             Express delivery (+ 5 EUR) 
         </label>
-            
-        <button type="submit" class="btn btn-primary">Order!</button>
+
+        <button type="submit" name="button" class="btn btn-primary" form="orderForm" formmethod="post">Order!</button>
     </form>
 
-    <footer>You already ordered <strong>&euro; <?php echo $totalValue ?></strong> in food and drinks.</footer>
+    <footer>You already ordered <strong>&euro; <?php global $totalValue; echo $totalValue ?></strong> in food and drinks.</footer>
 </div>
 
 <style>
