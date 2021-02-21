@@ -101,7 +101,7 @@ if(isset($_SESSION["wronginput"])){
     if (empty($_SESSION["streetNumber"])) {$streetNumberErr =  " Street number required field <br/>";} elseif (!is_numeric($_SESSION["streetNumber"])) {
     $streetNumberNANErr = "Street number field can only contain numbers <br/>";}
     if (empty($_SESSION["city"])) { $cityErr = " City required field <br/>";}
-    if (isset($_SESSION['producterr'])){$producterr= "No food or drinks selected";}
+    if (empty($_SESSION['producterr'])){$producterr= "No food or drinks selected";}
 
     echo ' <div class="alert alert-warning" role="alert">
      ' . $emailErr . $streetErr . $streetNumberErr . $streetNumberNANErr . $cityErr . $zipcodeErr . $zipcodeNANErr . $producterr . '
@@ -112,18 +112,20 @@ if(isset($_SESSION["wronginput"])){
 
     if (isset($_POST['button'])) {
 
+
+
+
+
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {$_SESSION['email']=$email;}
         if (empty($street)){unset($_SESSION['street']);} else {$_SESSION['street']=$street;}
         if (empty($streetNumber)){unset($_SESSION['streetNumber']);}else{$_SESSION['streetNumber']=$streetNumber;}
         if (empty($city)){unset($_SESSION['city']);}else{$_SESSION['city']=$city;}
         if (empty($zipcode)){unset($_SESSION['zipcode']);}else{$_SESSION['zipcode']=$zipcode;}
-        if (isset($_POST["order"])){$_SESSION['producterr']=true;}else{unset($_SESSION['producterr']);}
+        if (array_sum($_POST["products"])==0){$_SESSION['producterr'];}else{unset($_SESSION['producterr']);}
 
 
 
-
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || empty($street) || empty($streetNumber) || !is_numeric($streetNumber) || empty($city) || !is_numeric($zipcode) ){
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || empty($street) || empty($streetNumber) || !is_numeric($streetNumber) || empty($city) || !is_numeric($zipcode) || array_sum($_POST["products"])==0 ){
 
 
              header("Refresh:0");
